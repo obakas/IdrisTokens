@@ -40,4 +40,33 @@ contract IdrisToken2Test is Test{
         assertEq(idrisToken.balanceOf(alice), transferAmount);
         assertEq(idrisToken.balanceOf(bob), STARTING_BALANCE - transferAmount);
     }
+
+    function testTransfer() public {
+        uint256 transferAmount = 10 ether;
+
+        vm.prank(bob);
+        idrisToken.transfer(alice, transferAmount);
+
+        assertEq(idrisToken.balanceOf(alice), transferAmount);
+        assertEq(idrisToken.balanceOf(bob), STARTING_BALANCE - transferAmount);
+        }
+
+    function testApprovalAndTransferFrom() public {
+        uint256 approvalAmount = 50 ether;
+        uint256 transferAmount = 20 ether;
+
+        vm.prank(bob);
+        idrisToken.approve(alice, approvalAmount);
+
+        assertEq(idrisToken.allowance(bob, alice), approvalAmount);
+
+        vm.prank(alice);
+        idrisToken.transferFrom(bob, alice, transferAmount);
+
+        assertEq(idrisToken.balanceOf(alice), transferAmount);
+        assertEq(idrisToken.balanceOf(bob), STARTING_BALANCE - transferAmount);
+        assertEq(idrisToken.allowance(bob, alice), approvalAmount - transferAmount);
+        }
+
+
 }
