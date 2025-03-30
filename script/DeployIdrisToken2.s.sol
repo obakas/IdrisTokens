@@ -8,9 +8,10 @@ import {IdrisToken2} from "src/IdrisToken2.sol";
 contract DeployIdrisToken2 is Script{
     uint256 public constant INITIAL_SUPLY = 1000 ether;
 
-    function run() external {
+    function run() external returns (IdrisToken2) {
         vm.startBroadcast();
-        new IdrisToken2(INITIAL_SUPLY);
+        IdrisToken2 idrisToken = new IdrisToken2(1000 ether);
         vm.stopBroadcast();
+        return idrisToken;
     }
 }
